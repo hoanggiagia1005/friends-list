@@ -78,28 +78,38 @@ function App() {
           <Typography component="h1" variant="h4" align="center">
             Friends
           </Typography>
+          <Grid
+            container
+            rowSpacing={2}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            justifyContent="center"
+            alignItems="center"
+          >
+            {friends.map((friend, index) => {
+              return (
+                <Grid item xs={12} md={6} key={index}>
+                  <Card className="friend-card">
+                    <CardContent>
+                      <Typography color="text">
+                        Name: {friend?.name}
+                      </Typography>
+                      <Typography color="text">
+                        Wallet Address: {friend?.walletAddress}
+                      </Typography>
+                      <Typography color="text">
+                        Email: {friend?.email}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small">Update</Button>
+                      <Button size="small">Delete</Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              )
+            })}
+          </Grid>
 
-          {friends.map(friend => {
-            return (
-              <Card sx={{ maxWidth: 400 }}>
-                <CardContent>
-                  <Typography color="text">
-                    Name: {friend?.name}
-                  </Typography>
-                  <Typography color="text">
-                    Wallet Address: {friend?.walletAddress}
-                  </Typography>
-                  <Typography color="text">
-                    Email: {friend?.email}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small">Update</Button>
-                  <Button size="small">Delete</Button>
-                </CardActions>
-              </Card>
-            )
-          })}
         </Paper>
       </Container>
     </>
