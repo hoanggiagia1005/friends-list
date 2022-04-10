@@ -6,12 +6,32 @@ import {
   Typography
 } from "@mui/material";
 import {useState} from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
-  const [friends, setFriends] = useState([
-    {name: "Hoang", walletAddress: "0xcD4AD67BdC3A2F52C7c65241DcDE8dF1519253f8", email: "hoang"},
-    {name: "Hoang", walletAddress: "0xcD4AD67BdC3A2F52C7c65241DcDE8dF1519253f8", email: "hoang"}
-  ])
+
+  const [friends, setFriends] = useState([])
+  const [showModalUpdateFriend, setShowModalUpdateFriend] = useState(false);
+
+  const addFriend = (friend) => {
+    const uuid = uuidv4();
+    friend.id = uuid;
+    setFriends([...friends, friend]);
+  }
+  const updateFriend = (friend) => {
+    let index = friends.findIndex(item => item.id === friend.id)
+    if(index) {
+      let newFriends = [...friends];
+      newFriends[index] = friend;
+      setFriends(newFriends);
+    } else {
+      //TODO
+    }
+  }
+  const removeFriend = (id) => {
+    setFriends(friends.filter(friend => friend.id !== id));
+  }
+
   return (
     <>
       <AppBar
@@ -85,31 +105,30 @@ function App() {
             justifyContent="center"
             alignItems="center"
           >
-            {friends.map((friend, index) => {
+            {friends.map((friend) => {
               return (
-                <Grid item xs={12} md={6} key={index}>
+                <Grid item xs={12} md={6} key={friend.id}>
                   <Card className="friend-card">
                     <CardContent>
                       <Typography color="text">
-                        Name: {friend?.name}
+                        Name: {friend.name}
                       </Typography>
                       <Typography color="text">
-                        Wallet Address: {friend?.walletAddress}
+                        Wallet Address: {friend.walletAddress}
                       </Typography>
                       <Typography color="text">
-                        Email: {friend?.email}
+                        Email: {friend.email}
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="small">Update</Button>
-                      <Button size="small">Delete</Button>
+                      <Button size="small" onClick={setShowModalUpdateFriend(true)}>Update</Button>
+                      <Button size="small" onClick={() => removeFriend(friend.id)}>Delete</Button>
                     </CardActions>
                   </Card>
                 </Grid>
               )
             })}
           </Grid>
-
         </Paper>
       </Container>
     </>
