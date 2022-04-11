@@ -42,7 +42,6 @@ function App() {
       return true;
     }
   }
-
   const verifyEmail = () => {
     if (!email) {
       setEmailErrorText("Please enter email");
@@ -55,6 +54,7 @@ function App() {
       return true;
     }
   }
+
   const addFriend = (event) => {
     event.preventDefault();
 
@@ -78,13 +78,10 @@ function App() {
   }
   const updateFriend = (friend) => {
     let index = friends.findIndex(item => item.id === friend.id)
-    if(index) {
-      let newFriends = [...friends];
-      newFriends[index] = friend;
-      setFriends(newFriends);
-    } else {
-      //TODO
-    }
+    let newFriends = [...friends];
+    newFriends[index] = friend;
+    setFriends(newFriends);
+    setShowModalUpdateFriend(false);
   }
   const removeFriend = (id) => {
     setFriends(friends.filter(friend => friend.id !== id));
