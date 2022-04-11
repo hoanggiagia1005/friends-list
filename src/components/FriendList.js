@@ -1,6 +1,6 @@
 import {Button, Card, CardActions, CardContent, Grid, Paper, Typography} from "@mui/material";
 
-const FriendList = ({friends, setFriend, showUpdateModal, removeFriend}) => {
+const FriendList = ({friends, setSelectedFriend, showUpdateModal, removeFriend}) => {
   return (
     <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
       <Typography component="h1" variant="h4" align="center">
@@ -28,7 +28,7 @@ const FriendList = ({friends, setFriend, showUpdateModal, removeFriend}) => {
                 </CardContent>
                 <CardActions>
                   <Button variant="contained" size="small" onClick={ () => {
-                    setFriend(friend)
+                    setSelectedFriend(friend)
                     showUpdateModal(true)
                   }}>Update</Button>
                   <Button variant="contained" size="small" onClick={() => removeFriend(friend.id)}>Delete</Button>
