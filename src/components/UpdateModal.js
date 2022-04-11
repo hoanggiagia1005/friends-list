@@ -111,8 +111,8 @@ const UpdateModal = ({friend, open, handleClose, handleUpdate}) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={updateFriend}>Update</Button>
+        <Button variant="contained" onClick={handleClose}>Cancel</Button>
+        <Button variant="contained" onClick={updateFriend}>Update</Button>
       </DialogActions>
     </Dialog>
   )

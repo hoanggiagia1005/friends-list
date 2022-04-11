@@ -1,7 +1,8 @@
 import './App.css';
 import {
+  Alert,
   AppBar, Button, Card, CardActions, CardContent, Container, Grid,
-  Paper, TextField,
+  Paper, Snackbar, TextField,
   Toolbar,
   Typography
 } from "@mui/material";
@@ -9,6 +10,8 @@ import {useState} from "react";
 import { v4 as uuidv4 } from 'uuid';
 import UpdateModal from "./components/UpdateModal";
 import ethereum_address from 'ethereum-address'
+import FriendList from "./components/FriendList";
+import Header from "./components/Header";
 
 function App() {
   const [name, setName] = useState()
@@ -20,6 +23,8 @@ function App() {
   const [friend, setFriend] = useState()
   const [friends, setFriends] = useState([])
   const [showModalUpdateFriend, setShowModalUpdateFriend] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState();
 
   const verifyName = () => {
     if (!name) {
@@ -74,6 +79,8 @@ function App() {
       setName("")
       setWalletAddress("")
       setEmail("")
+      setAlertMessage("Successfully added a new friend contact!")
+      setShowAlert(true)
     }
   }
   const updateFriend = (friend) => {
@@ -82,31 +89,23 @@ function App() {
     newFriends[index] = friend;
     setFriends(newFriends);
     setShowModalUpdateFriend(false);
+    setAlertMessage("Successfully updated a friend contact!")
+    setShowAlert(true)
   }
   const removeFriend = (id) => {
     setFriends(friends.filter(friend => friend.id !== id));
   }
+
   const closeModal = () => {
     setShowModalUpdateFriend(false);
+  }
+  const handleCloseAlert = () => {
+    setShowAlert(false);
   }
 
   return (
     <>
-      <AppBar
-        position="absolute"
-        color="default"
-        elevation={0}
-        sx={{
-          position: 'relative',
-          borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-        }}
-      >
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Friends List
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <Header />
       <Container component="main" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">
@@ -169,48 +168,14 @@ function App() {
           </form>
 
         </Paper>
-
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-          <Typography component="h1" variant="h4" align="center">
-            Friends
-          </Typography>
-          <Grid
-            container
-            rowSpacing={2}
-            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-            justifyContent="center"
-            alignItems="center"
-          >
-            {friends.map((friend) => {
-              return (
-                <Grid item xs={12} md={6} key={friend.id}>
-                  <Card className="friend-card">
-                    <CardContent>
-                      <Typography color="text">
-                        Name: {friend.name}
-                      </Typography>
-                      <Typography color="text">
-                        Wallet Address: {friend.walletAddress}
-                      </Typography>
-                      <Typography color="text">
-                        Email: {friend.email}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small" onClick={ () => {
-                        setFriend(friend)
-                        setShowModalUpdateFriend(true)
-                      }}>Update</Button>
-                      <Button size="small" onClick={() => removeFriend(friend.id)}>Delete</Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              )
-            })}
-          </Grid>
-        </Paper>
+        <FriendList friends={friends} setFriend={setFriend} removeFriend={removeFriend} showUpdateModal={setShowModalUpdateFriend}/>
       </Container>
       <UpdateModal friend={friend} open={showModalUpdateFriend} handleClose={closeModal} handleUpdate={updateFriend} />
+      <Snackbar open={showAlert} autoHideDuration={6000} onClose={handleCloseAlert} anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
+        <Alert onClose={handleCloseAlert} severity="success" sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
