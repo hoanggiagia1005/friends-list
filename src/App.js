@@ -43,7 +43,7 @@ function App() {
       <Header />
       <Container component="main" sx={{ mb: 4 }}>
         <FriendForm addFriend={addFriend} />
-        <FriendList friends={friends} setFriend={setSelectedFriend} removeFriend={removeFriend} showUpdateModal={setShowModalUpdateFriend}/>
+        <FriendList friends={friends} setSelectedFriend={setSelectedFriend} removeFriend={removeFriend} showUpdateModal={setShowModalUpdateFriend}/>
       </Container>
       <UpdateModal friend={selectedFriend} open={showModalUpdateFriend} handleClose={closeModal} handleUpdate={updateFriend} />
       <Snackbar open={showAlert} autoHideDuration={6000} onClose={handleCloseAlert} anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
